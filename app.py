@@ -48,7 +48,7 @@ except Exception as e:
     st.stop()
 
 # 3. Header Section
-st.title("❤️ Pulse AI: Heart Health Monitor")
+st.title("❤️ LifePulse: Heart Health Monitor")
 st.markdown("### *Our AI is quite accurate. Your heart should be too.*")
 
 # 4. Input Form (The "Clinical" Layout)
