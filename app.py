@@ -177,27 +177,25 @@ if submitted:
     with st.spinner('Listening to your heart...'):
         prediction_prob = model.predict(input_data)[0][0]
     
-    # 5. Results Display
+    # 5. Display Results (CLEAN VERSION - No Scores)
     st.divider()
     col_res1, col_res2 = st.columns([3, 1])
     
     with col_res1:
-        # Standard Logic: < 0.5 is High Risk
-        if prediction_prob < 0.5:
+        # Standard Logic: > 0.5 is High Risk
+        if prediction_prob > 0.5:
             st.error(f"## ⚠️ High Cardiac Risk Detected")
-            st.markdown(f"**Confidence Score: {prediction_prob:.1%}**")
             
             if user_mode == "Patient":
                 st.write("### What does this mean?")
-                st.write("Your reported symptoms and vitals align with patterns found in heart disease. This is **not a diagnosis**, but a strong signal to check in with a doctor.")
-                st.markdown("**Recommended Action:** Schedule a check-up this week.")
+                st.write("Your reported symptoms and vitals align with patterns found in heart disease. This is a strong signal to check in with a doctor.")
+                st.markdown("**Recommended Action:** Schedule a professional medical check-up.")
             else:
                 st.write("Clinical markers indicate high probability of heart disease presence.")
                 st.markdown("**Next Step:** Perform angiography and stress testing.")
                 
         else:
             st.success(f"## ✅ Low Risk / Healthy Profile")
-            st.markdown(f"**Confidence Score: {(1-prediction_prob):.1%}**") # Invert for Health Confidence
             
             if user_mode == "Patient":
                 st.write("### Good News!")
@@ -206,6 +204,13 @@ if submitted:
             else:
                 st.write("Patient vitals are within healthy parameters. No immediate intervention required.")
                 st.balloons()
+
+    # We leave col_res2 empty or use it for a simple icon
+    with col_res2:
+        if prediction_prob > 0.5:
+            st.markdown("🚨")
+        else:
+            st.markdown("💖")
 
     with col_res2:
         st.write("### Risk Gauge")
